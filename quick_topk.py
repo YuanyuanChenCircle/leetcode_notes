@@ -1,81 +1,78 @@
+
+
 class Solution:
-    def findKthLargest(self, nums, k):
+    def getLeastNumbers(self, arr, k):
+
+        # 快排
+
         start = 0
-        end = len(nums) - 1
-            # pivot_index = partition(arr, start, end)
-        while start <= end:
-            pivot_index = self.partition(nums, start, end)
+        end = len(arr) - 1
 
-            if pivot_index == len(nums) - k:
+        self.quicksort(arr, start, end, k)
 
-                return nums[pivot_index]
+        return arr[:k]
 
-            elif pivot_index > len(nums) - k:
 
-                end = pivot_index - 1
-            else:
-                start = pivot_index + 1
+
+    def quicksort(self, arr, start, end, k):
+
+        if start >= end:
+
+            return 
+
+        pivotindex = self.partition(arr, start, end)
+
+        if pivotindex > k - 1:
+            self.quicksort(arr, start, pivotindex - 1, k)
+        
+        elif pivotindex < k - 1:
+
+            self.quicksort(arr, pivotindex + 1, end, k)
+
+        else:
+            return
+
+
+
 
     def partition(self, arr, start, end):
 
-            pivot = arr[start]
-            left = start
-            right = end
+        pivot = arr[start]
 
-            index = start
-            # 坑的位置，初始等于pivot的位置
+        left = start
+
+        right = end
+
+        index = start
+
+        while right >= left:
+
             while right >= left:
 
-                # right指针从右向左进行比较
+                if arr[right] < pivot:
 
-                while right >= left:
-
-                    if arr[right] < pivot:
-
-                        arr[left] = arr[right]
-                        index = right
-                        left += 1
-                        break
-                    right -= 1
-
-                # left指针从左向右比较
-                while right >= left:
-
-                    if arr[left] > pivot:
-
-                        arr[right] = arr[left]
-                        index = left
-                        right -= 1
-                        break
+                    arr[left] = arr[right]
+                    index = right
                     left += 1
+                    break
 
-                arr[index] = pivot
-            return index
-        
-
+                right -= 1
 
 
-if __name__ == '__main__':
+            while right >= left:
 
-    arr = [3,2,3,1,2,4,5,5,6,7,7,8,2,3,1,1,1,10,11,5,6,2,4,7,8,5,6]
-    so = Solution()
-    print(so.findKthLargest(arr, 2))
+                if arr[left] > pivot:
 
-
-
-
-        
-
-
-    
+                    arr[right] = arr[left]
+                    index = left
+                    right -= 1
+                    break
+                left += 1
 
 
+            arr[index] = pivot
 
-
-
-
-
-
+        return index
 
 
 
